@@ -1,0 +1,240 @@
+/* General Body & Dark Theme */
+body {
+  background-color: #2b2a33;
+  color: #f0f0f0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  margin: 0;
+  padding: 15px;
+}
+
+/* New: Class specifically for the popup body */
+.popup-body {
+  min-width: 380px;
+}
+
+/* Container for Centering Options Page */
+.container {
+  max-width: 700px; /* Narrower as requested */
+  margin: 2rem auto;
+  padding: 0 15px;
+}
+
+/* Headings and Links */
+h3 {
+  margin-top: 0;
+  color: #f0f0f0;
+  font-weight: 600;
+  font-size: 18px;
+  border-bottom: 1px solid #444;
+  padding-bottom: 10px;
+}
+
+h2 {
+  margin-top: 0;
+  font-size: 16px;
+}
+
+a {
+  color: #55a8f2;
+}
+
+/* Form Elements */
+label, summary {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+input[type="text"] {
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #1c1b22;
+  color: #f0f0f0;
+  border: 1px solid #555;
+  border-radius: 4px;
+  padding: 8px;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border-color: #0078d4;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #555;
+  margin: 15px 0;
+}
+
+/* Buttons */
+button {
+  background-color: #2d8853;
+  color: #ffffff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-right: 5px;
+  transition: background-color 0.2s;
+}
+
+button:hover {
+  background-color: #36a265;
+}
+
+button:disabled {
+  background-color: #444;
+  cursor: not-allowed;
+}
+
+/* Special Button Colors */
+button.confirm-delete, button.btn-danger, #removePerm {
+  background-color: #c93c3c;
+}
+button.confirm-delete:hover, button.btn-danger:hover, #removePerm:hover {
+  background-color: #e04a4a;
+}
+
+
+/* Specific UI Elements */
+.result-actions, .stats-controls {
+  margin-top: 10px;
+}
+
+.stats-buttons {
+  margin-top: 10px;
+}
+
+#btnDownloadQr {
+margin-top: 10px;
+}
+
+#open-settings-link {
+position: absolute;
+top: 15px;
+right: 15px;
+cursor: pointer;
+width: 24px;
+height: 24px;
+text-decoration: none;
+color: #aaa;
+}
+#open-settings-link:hover {
+color: #fff;
+}
+#open-settings-link svg {
+fill: currentColor;
+}
+
+details {
+  border: none;
+  padding: 0;
+}
+
+summary {
+  cursor: pointer;
+  padding-left: 0;
+}
+
+.info {
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 4px;
+  background-color: #3a3d4d;
+  border: 1px solid #5a5d6d;
+  font-size: 14px;
+  white-space: pre-line;
+  line-height: 1.6;
+}
+
+.info.ok {
+  background-color: #2d4b69;
+  border-color: #3b6c9e;
+}
+
+/* Info-Box for Options Page */
+.info-box {
+  background-color: #3a3d4d;
+  border: 1px solid #5a5d6d;
+  padding: 15px;
+  margin-top: 2em;
+  border-radius: 5px;
+}
+
+#setup-message button {
+margin-top: 10px;
+}
+
+/* NEW STYLES FOR TOGGLE SWITCH */
+.toggle-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.toggle-label {
+  margin: 0;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 28px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #444;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2d8853;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2d8853;
+}
+
+input:checked + .slider:before {
+  transform: translateX(22px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.buttons-container {
+  margin-top: 20px;
+}

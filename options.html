@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title data-i18n-key="optionsTitle">YOURLS Settings</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1 data-i18n-key="optionsTitle">YOURLS Settings</h1>
+
+        <div>
+            <p>
+                <label for="yourlsUrl" data-i18n-key="optionsYourlsUrlLabel">YOURLS URL (no trailing slash)</label><br>
+                <input type="text" id="yourlsUrl" size="60">
+            </p>
+            <p>
+                <label for="apiSignature" data-i18n-key="optionsApiSignatureLabel">API signature token</label><br>
+                <input type="text" id="apiSignature" size="60">
+            </p>
+
+            <div class="toggle-container">
+                <label class="toggle-label" for="autoCopy" data-i18n-key="optionsAutoCopyLabel">Copy short link to clipboard automatically</label>
+                <label class="switch">
+                    <input type="checkbox" id="autoCopy" checked>
+                    <span class="slider round"></span>
+                </label>
+            </div>
+
+            <div class="buttons-container">
+                <button id="save" data-i18n-key="optionsBtnSave">Save</button>
+                <button id="test" data-i18n-key="optionsBtnTest">Test Connection</button>
+                <button id="removePerm" data-i18n-key="optionsBtnRemovePerm">Remove Host Permission</button>
+            </div>
+
+            <p id="status" class="info"></p>
+        </div>
+    </div>
+
+    <script src="JS/polyfill.js"></script>
+    <script src="JS/helpers.js"></script>
+    <script src="JS/options.js"></script>
+</body>
+</html>
