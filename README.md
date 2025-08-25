@@ -20,6 +20,8 @@ A browser extension for **Chrome** and **Edge** to shorten URLs with your self-h
   * **Privacy-Focused**: Connects only to your own YOURLS instance. No data is sent to third parties.
   * **Multi-language Support**: Available in English, German, French, Spanish, and many more languages.
 
+![Screenshot of the kurl extension settings page](assets/kurl-chrome-extension-screenshot.jpg)
+
 -----
 
 ## About YOURLS (Your Own URL Shortener)
