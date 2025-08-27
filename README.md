@@ -30,7 +30,10 @@ YOURLS is a free, open-source set of PHP scripts that allows you to run your own
 
 This extension requires you to have your own YOURLS instance already installed and running on a web server.
 
-### How to Install YOURLS
+### The Name kurl
+The name kurl is a playful fusion of two words: "k" from the German word "kurz," which means short, and "url". In German, a short URL is often referred to as a "Kurz-URL," making kurl a fitting and concise name for a URL shortener.
+
+## How to Install YOURLS
 
 Self-hosting YOURLS requires a web server with PHP and a MySQL database. For complete and detailed instructions, please refer to the official guide:
 **[Official YOURLS Installation Guide](https://yourls.org/#Install)**
