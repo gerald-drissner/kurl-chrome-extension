@@ -28,6 +28,8 @@ jobs:
         run: node tests/polyfill.cjs
       - name: Chrome offscreen clipboard
         run: node tests/offscreen.cjs
+      - name: Offscreen DOM clipboard fallback
+        run: node tests/offscreen-dom.cjs
       - name: Helper PHP syntax
         if: runner.os == 'Linux'
         run: php -l helper/kurl-helper/plugin.php
