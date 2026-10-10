@@ -26,6 +26,8 @@ jobs:
         run: node tests/api-smoke.cjs
       - name: Chrome API adapter
         run: node tests/polyfill.cjs
+      - name: Chrome offscreen clipboard
+        run: node tests/offscreen.cjs
       - name: Helper PHP syntax
         if: runner.os == 'Linux'
         run: php -l helper/kurl-helper/plugin.php

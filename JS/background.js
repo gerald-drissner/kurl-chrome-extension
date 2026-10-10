@@ -465,16 +465,30 @@ async function feedback(tab,message,error=false) {
   const next=setTimeout(()=>{badges.delete(id);void browser.action.setBadgeText({tabId:id,text:""}).catch(()=>{});},3300);
   badges.set(id,next);
 }
+let creatingOffscreen = null;
+async function ensureOffscreenDocument() {
+  // chrome.offscreen.hasDocument() was introduced after Chrome 116.
+  // runtime.getContexts() is available from Chrome 116, our minimum.
+  const existing = await chrome.runtime.getContexts({
+    contextTypes: ["OFFSCREEN_DOCUMENT"],
+    documentUrls: [chrome.runtime.getURL("offscreen.html")]
+  });
+  if (existing.length) return;
+  if (!creatingOffscreen) {
+    creatingOffscreen = chrome.offscreen.createDocument({
+      url: "offscreen.html", reasons: ["CLIPBOARD"],
+      justification: "Copy user-requested YOURLS short links to the clipboard"
+    }).finally(() => { creatingOffscreen = null; });
+  }
+  await creatingOffscreen;
+}
 async function copyShortUrl(short) {
   if(typeof navigator!=="undefined" && navigator.clipboard?.writeText){
     await navigator.clipboard.writeText(short);return;
   }
   if(typeof chrome==="undefined" || !chrome.offscreen)
     throw new Error("Clipboard unavailable. Open the kURL popup to copy the link.");
-  if(!(await chrome.offscreen.hasDocument())){
-    await chrome.offscreen.createDocument({url:"offscreen.html",reasons:["CLIPBOARD"],
-      justification:"Copy user-requested YOURLS short links to the clipboard"});
-  }
+  await ensureOffscreenDocument();
   const copied=await browser.runtime.sendMessage({type:"KURL_OFFSCREEN_COPY",text:short});
   if(!copied?.ok)throw new Error(copied?.reason||"Clipboard access denied");
 }
