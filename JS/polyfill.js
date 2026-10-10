@@ -1,76 +1,53 @@
-// Minimal browser.* polyfill for Chromium-based browsers.
-(function () {
-    if (typeof globalThis.browser !== "undefined") return;
-    if (typeof chrome === "undefined") return;
-
-    const asPromise = (fn, ctx) => (...args) =>
-    new Promise((resolve, reject) => {
-        try {
-            fn.apply(ctx, [
-                ...args,
-                (result) => {
-                    const err = chrome.runtime && chrome.runtime.lastError;
-                    if (err) reject(new Error(err.message || String(err)));
-                    else resolve(result);
-                }
-            ]);
-        } catch (e) {
-            reject(e);
-        }
-    });
-
-    const b = {};
-
-    b.i18n = chrome.i18n;
-
-    b.storage = {
-        local: {
-            get: asPromise(chrome.storage.local.get, chrome.storage.local),
- set: asPromise(chrome.storage.local.set, chrome.storage.local),
- remove: asPromise(chrome.storage.local.remove, chrome.storage.local)
-        }
-    };
-
-    if (chrome.permissions) {
-        b.permissions = {
-            request: asPromise(chrome.permissions.request, chrome.permissions),
- contains: asPromise(chrome.permissions.contains, chrome.permissions),
- remove: asPromise(chrome.permissions.remove, chrome.permissions)
-        };
-    }
-
-    b.runtime = {
-        onMessage: chrome.runtime.onMessage,
-        onInstalled: chrome.runtime.onInstalled,
-        onStartup: chrome.runtime.onStartup,
-        sendMessage: (msg) =>
-        new Promise((resolve, reject) => {
-            try {
-                chrome.runtime.sendMessage(msg, (response) => {
-                    const err = chrome.runtime && chrome.runtime.lastError;
-                    if (err) reject(new Error(err.message || String(err)));
-                    else resolve(response);
-                });
-            } catch (e) {
-                reject(e);
-            }
-        })
-    };
-
-    b.action = {
-        onClicked: chrome.action.onClicked,
-        openPopup: () => { try { chrome.action.openPopup(); } catch {} return Promise.resolve(); },
- setPopup: chrome.action.setPopup,
- setTitle: chrome.action.setTitle,
- setIcon: chrome.action.setIcon
-    };
-
-    b.notifications = {
-        create: (...args) => chrome.notifications.create(...args)
-    };
-
-    b.menus = chrome.contextMenus || chrome.menus;
-    b.tabs = chrome.tabs;
-
-    globalThis.browser = b;
+/* Promise-compatible API facade for Chrome MV3 extension pages and service workers. */
+(() => {
+  "use strict";
+  if (typeof globalThis.browser !== "undefined") return;
+  if (typeof chrome === "undefined") throw new Error("Chrome APIs are unavailable");
+  const wrap = (obj, name) => (...args) => new Promise((resolve, reject) => {
+    try { obj[name](...args, value => {
+      const err = chrome.runtime.lastError;
+      if (err) reject(new Error(err.message)); else resolve(value);
+    }); } catch (error) { reject(error); }
+  });
+  globalThis.browser = {
+    i18n: chrome.i18n,
+    storage: { local: {
+      get: wrap(chrome.storage.local, "get"),
+      set: wrap(chrome.storage.local, "set"),
+      remove: wrap(chrome.storage.local, "remove")
+    }, onChanged: chrome.storage.onChanged },
+    permissions: {
+      request: wrap(chrome.permissions, "request"),
+      contains: wrap(chrome.permissions, "contains"),
+      remove: wrap(chrome.permissions, "remove")
+    },
+    runtime: {
+      onInstalled: chrome.runtime.onInstalled,
+      onStartup: chrome.runtime.onStartup,
+      onMessage: chrome.runtime.onMessage,
+      getURL: chrome.runtime.getURL.bind(chrome.runtime),
+      sendMessage: wrap(chrome.runtime, "sendMessage")
+    },
+    menus: {
+      onClicked: chrome.contextMenus.onClicked,
+      create: wrap(chrome.contextMenus, "create"),
+      remove: wrap(chrome.contextMenus, "remove")
+    },
+    tabs: {
+      query: wrap(chrome.tabs, "query"),
+      create: wrap(chrome.tabs, "create"),
+      get: wrap(chrome.tabs, "get")
+    },
+    action: {
+      setBadgeText: wrap(chrome.action, "setBadgeText"),
+      setBadgeBackgroundColor: wrap(chrome.action, "setBadgeBackgroundColor")
+    },
+    notifications: { create: (...args) => new Promise((resolve, reject) => {
+      chrome.notifications.create(...args, id => {
+        const err = chrome.runtime.lastError;
+        if (err) reject(new Error(err.message)); else resolve(id);
+      });
+    }) },
+    commands: { getAll: wrap(chrome.commands, "getAll") }
+  };
 })();
