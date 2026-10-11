@@ -1,91 +1,37 @@
-# kurl - YOURLS Shortener for Chrome & Edge
+# kURL for Chrome / Chromium / Edge — 2.0.2 (release candidate)
 
-> **Looking for the Firefox version? [Find it here\!](https://github.com/gerald-drissner/kurl-firefox-addon)**
-
-[](https://www.google.com/search?q=https://github.com/gerald-drissner/kurl-chrome-extension/releases)
-[](https://www.google.com/search?q=LICENSE)
-[](https://github.com/YOURLS/awesome)
-
-A browser extension for **Chrome** and **Edge** to shorten URLs with your self-hosted YOURLS instance.
+This is a **separate browser extension**, modernized using the tested kURL for Thunderbird 2.0.20 dashboard, security model, YOURLS API client, link search, bulk shortening and local logs. **This is a release candidate on a Draft PR. Complete store review, upgrade-path and permission checks before publication.**
 
 ## Features
+- Full dashboard: two-way lookup (keyword/short URL → target and clicks; destination → existing short link via the optional server-side Helper), top and recent links, create and safely edit/delete links.
+- Configurable HTTPS YOURLS connection with time-limited SHA-256 signatures, test-and-save setup, connection status and local optional notifications.
+- Browser toolbar popup shortens the active page, allows custom keywords/titles, copying, link statistics and locally rendered/downloadable QR codes.
+- Browser context menu shortens a selected URL, linked URL or current page and copies the result. It also preserves the earlier browser feature of unwrapping recognized Google, Bing, DuckDuckGo and YouTube redirect links when their embedded destination is a valid HTTP(S) URL. **On Chrome**, background clipboard access uses a minimal local offscreen document, not a remote service.
+- Bulk shortening, local activity log (7 days/100 records) with TXT export, 10 locale directories, and RTL layouts.
+- Optional YOURLS Helper 1.1.7 is provided as static PHP source to install on the user's YOURLS server. It is not executed in the browser.
 
-  * **Quickly shorten links**: Create short URLs for any website directly from your browser.
-  * **Universal Link Cleaning**: Automatically finds the real destination URL from tracking links (Google, Bing, etc.) before shortening.
-  * **Custom Keywords & Titles**: Assign optional custom keywords and titles to your short links for easy management.
-  * **QR Code Generation**: Instantly generate and download a high-quality QR code for any short URL.
-  * **Instance Dashboard**: View your YOURLS instance's total links and clicks at a glance.
-  * **Full Link Management**: Check the click count and target URL for any existing short link, or delete it directly from the extension.
-  * **Streamlined Workflow**: Use the **toolbar button** or the **right-click context menu**.
-  * **Privacy-Focused**: Connects only to your own YOURLS instance. No data is sent to third parties.
-  * **Multi-language Support**: Available in English, German, French, Spanish, and many more languages.
+## Upgrading
+The existing Chrome Web Store listing remains linked to its installed extension ID. Connection settings `yourlsUrl`, `apiSignature` and `autoCopy` use the same storage keys as the old version. Re-test the connection after updating YOURLS, because API signatures may change.
 
-![Screenshot of the kurl extension settings page](assets/kurl-chrome-extension-screenshot.jpg)
+**Permission change on update:** 2.x adds `clipboardWrite` (needed to copy the short link after a right-click; Chrome shows "Modify data you copy and paste"). Chrome disables an updated extension until the user accepts a newly added permission warning, so existing 1.0 users must re-enable kURL once. 2.x no longer requests `tabs`; the current page is read through `activeTab` when you click the kURL button.
 
------
+**Chrome 148 and later** provide a native `browser` namespace. `JS/polyfill.js` is then skipped, so shared code must use names that exist natively in Chrome (for example `contextMenus`, reached through `browser.menus || browser.contextMenus`). `tests/native-namespace.cjs` covers this.
 
-## About YOURLS (Your Own URL Shortener)
+## Security notes
+All API access is via HTTPS; raw signature tokens stay in local browser extension storage. The code rejects redirects and overlarge responses. User-selected host permissions are granted only after explicit setup. Clipboard/QR operations do not use third-party services. Do not claim full translations in all 10 languages; untranslated keys may fall back to English.
 
-YOURLS is a free, open-source set of PHP scripts that allows you to run your own URL shortening service. Unlike commercial services, YOURLS gives you full control over your data, with powerful features like detailed statistics, link management, and a plugin architecture to extend its functionality.
+## Differences from Thunderbird
+Thunderbird's message-reading, compose-editor insertion, QR attachment, `compose` and `messagesRead` APIs are *not* included. Browser page/link selection and copy replace them. The Chrome MV3 background is a service worker; Firefox uses background scripts.
 
-This extension requires you to have your own YOURLS instance already installed and running on a web server.
+## Local development
+Run `node --check JS/*.js` file by file and execute all `node tests/*.cjs` scripts listed in `.github/workflows/ci.yml`. For Chrome, load the folder through `chrome://extensions` → Developer mode → Load unpacked. For Firefox, test as a temporary add-on through `about:debugging` → This Firefox → Load Temporary Add-on → select `manifest.json`.
 
-### The Name kurl
-The name kurl is a playful fusion of two words: "k" from the German word "kurz," which means short, and "url". In German, a short URL is often referred to as a "Kurz-URL," making kurl a fitting and concise name for a URL shortener.
+Audit follow-up: safe Bing base64url link unwrapping, Google-host spoofing rejection and protection against overwriting settings edited during a connection test.
 
-## How to Install YOURLS
+## Contact
 
-Self-hosting YOURLS requires a web server with PHP and a MySQL database. For complete and detailed instructions, please refer to the official guide:
-**[Official YOURLS Installation Guide](https://yourls.org/#Install)**
+For support and privacy questions, email [mail@drissner.media](mailto:mail@drissner.media), or open an issue in this repository.
 
-### Finding Your API Signature Token
+## Dashboard footer (2.0.2 preview)
 
-To connect this extension to your YOURLS instance, you need your unique API signature token.
-
-1.  Log in to your YOURLS admin dashboard (e.g., `http://your-domain.com/admin/`).
-2.  In the top menu, click on **Tools**.
-3.  Your API signature token is the long string of characters displayed in the **"Secure passwordless API call"** section at the top of the page.
-
------
-
-## Installation
-
-### 🔹 Option 1: Install from Official Stores
-
-Install the latest stable version directly from your browser's official store:
-
-[](https://chrome.google.com/webstore/category/extensions)
-[](https://microsoftedge.microsoft.com/addons/Microsoft-Edge-Extensions-Home)
-
-### 🔹 Option 2: Manual Installation (for development)
-
-1.  Go to the [**Releases Page**](https://github.com/gerald-drissner/kurl-chrome-extension/releases).
-2.  Download the `.zip` file from the latest release.
-3.  Unzip the downloaded file into a permanent folder.
-4.  In your browser, navigate to the extensions page:
-      * Chrome: `chrome://extensions`
-      * Edge: `edge://extensions`
-5.  Enable **"Developer mode"** using the toggle switch.
-6.  Click the **"Load unpacked"** button.
-7.  Select the folder where you unzipped the files.
-
------
-
-## Usage
-
-Before the first use, you must configure the extension. **Right-click the kurl icon** in your toolbar and select **"Options"**. You will need to enter your **YOURLS instance URL** and your **API signature token**.
-
-There are two ways to use the shortener:
-
-1.  **Toolbar Button**: Click the "kurl" icon in the toolbar to shorten the current page's URL.
-2.  **Context Menu**: Right-click on a page, a link, or selected text to see shortening options.
-
------
-
-## Privacy Policy
-
-kurl communicates directly with the YOURLS instance URL that you configure in the extension's settings. It does not collect, store, or transmit any data to any other third-party servers.
-
-## License
-
-This project is licensed under the MIT License.
+The dashboard displays the installed version dynamically and provides optional, user-clicked external links for contact and supporting development. No browser data or YOURLS credentials are sent to these sites by kURL; no donation is required for any feature.

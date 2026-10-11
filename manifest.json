@@ -1,33 +1,43 @@
 {
-    "manifest_version": 3,
-    "name": "__MSG_extensionName__",
-    "description": "__MSG_extensionDescription__",
-    "version": "1.0",
-    "default_locale": "en",
-    "icons": {
-        "48": "images/kurl-icon-48.png",
-        "96": "images/kurl-icon-96.png"
-    },
-    "action": {
-        "default_icon": {
-            "48": "images/kurl-icon-48.png",
-            "96": "images/kurl-icon-96.png"
-        },
-        "default_title": "__MSG_extensionName__",
-        "default_popup": "popup.html"
-    },
-    "options_page": "options.html",
-    "background": {
-        "service_worker": "JS/background.js",
-        "type": "module"
-    },
-    "permissions": [
-        "storage",
-        "notifications",
-        "contextMenus",
-        "tabs"
-    ],
-    "optional_host_permissions": [
-        "<all_urls>"
-    ]
+  "manifest_version": 3,
+  "name": "__MSG_extensionName__",
+  "short_name": "kURL",
+  "version": "2.0.2",
+  "description": "__MSG_extensionDescription__",
+  "author": "Gerald Drißner",
+  "default_locale": "en",
+  "minimum_chrome_version": "116",
+  "icons": {
+    "16": "images/kurl-icon-16.png",
+    "32": "images/kurl-icon-32.png",
+    "48": "images/kurl-icon-48.png",
+    "96": "images/kurl-icon-96.png",
+    "128": "images/kurl-icon-128.png"
+  },
+  "background": {
+    "service_worker": "JS/worker.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "kURL",
+    "default_icon": {
+      "16": "images/kurl-icon-16.png",
+      "32": "images/kurl-icon-32.png"
+    }
+  },
+  "options_ui": {
+    "page": "dashboard.html",
+    "open_in_tab": true
+  },
+  "permissions": [
+    "storage",
+    "clipboardWrite",
+    "contextMenus",
+    "notifications",
+    "activeTab",
+    "offscreen"
+  ],
+  "optional_host_permissions": [
+    "https://*/*"
+  ]
 }
