@@ -1,3 +1,11 @@
+## 2.0.2 — Dashboard version, contact and voluntary support
+
+- The dashboard now shows the installed kURL version dynamically from the extension manifest.
+- Added localized Contact and optional Support development links. External links open only after an explicit click; all features remain free.
+- No new permissions or changes to the Chrome 148+ compatibility fix, YOURLS authentication, the optional server-side Helper or browser data handling.
+
+The 2.0.1 and 2.0.0 changes below remain included in 2.0.2.
+
 # kURL Chrome 2.0.1 — development preview
 
 Fixes after review of the 2.0.0 preview:
