@@ -54,4 +54,6 @@ The use of information received by kURL will adhere to the Chrome Web Store User
 
 ## Contact
 
-Questions about this policy: https://github.com/gerald-drissner/kurl-chrome-extension/issues
+Contact: [mail@drissner.media](mailto:mail@drissner.media)
+
+Issues: https://github.com/gerald-drissner/kurl-chrome-extension/issues
