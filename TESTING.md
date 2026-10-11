@@ -8,5 +8,7 @@
 6. Test QR generation and local PNG download; bulk URL shortening and the seven-day activity log export.
 7. Test Arabic/Hebrew RTL switches and verify all UI controls remain usable.
 8. Chrome: explicitly test clipboard copying from a service worker through the offscreen document and verify the service worker recovers after suspension. Firefox: test background clipboard behavior.
+   Test on current Chrome stable (148 or later, native `browser` namespace) and on an older Chrome 116–147 build: popup, dashboard, Settings test and Logs must all respond.
+   After updating from 1.0, confirm Chrome asks to re-enable kURL for the new clipboard permission and that settings are kept.
 9. Verify optional host permissions only grant access to the chosen HTTPS YOURLS server.
 10. Run Firefox AMO / Chrome Web Store validators before production submission and do not claim native-browser testing when only mocked API checks passed.

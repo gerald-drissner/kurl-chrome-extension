@@ -1,4 +1,17 @@
-# kURL Chrome 2.0.0 — development preview
+# kURL Chrome 2.0.1 — development preview
+
+Fixes after review of the 2.0.0 preview:
+
+- Chrome 148 and later: the background service worker no longer fails at startup. Chrome's native `browser` namespace has `contextMenus` but no `menus`; 2.0.0 never answered the popup, dashboard or settings there.
+- The Logs page works on Chrome 116–147 (it loaded without the API adapter).
+- Right-click copy uses the supported offscreen-document fallback (`document.execCommand("copy")`); 2.0.0 failed with "Document is not focused".
+- The activity log again records created, deleted, looked-up, edited and regenerated links (type and status only, never URLs), as in Thunderbird.
+- Bing redirect links are decoded (base64url after `a1`), and Google `/url?q=` links are unwrapped.
+- The `tabs` permission was removed (`activeTab` is sufficient). 16, 32 and 128 px icons were added (the Chrome Web Store requires 128 px).
+- URLs and dates keep left-to-right order in Arabic and Hebrew. Untranslated context-menu entries and Thunderbird-specific wording were corrected; the popup no longer replaces "URL already shortened." with the copy confirmation.
+- The Helper source link points to an immutable commit; legacy 1.x prefill values are deleted on update.
+
+## 2.0.0
 
 This major rewrite brings the Thunderbird kURL 2.0.20 dashboard and security model to Chrome / Chromium browsers, while retaining browser-native toolbar and context-menu behavior.
 

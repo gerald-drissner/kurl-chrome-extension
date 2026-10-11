@@ -13,8 +13,8 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: '22'
       - name: JavaScript syntax
@@ -26,6 +26,8 @@ jobs:
         run: node tests/api-smoke.cjs
       - name: Chrome API adapter
         run: node tests/polyfill.cjs
+      - name: Chrome 148+ native browser namespace
+        run: node tests/native-namespace.cjs
       - name: Chrome offscreen clipboard
         run: node tests/offscreen.cjs
       - name: Offscreen DOM clipboard fallback

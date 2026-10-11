@@ -1,4 +1,8 @@
-/* Promise-compatible API facade for Chrome MV3 extension pages and service workers. */
+/* Promise-compatible API facade for Chrome MV3 extension pages and service workers.
+   Chrome 148+ defines a native browser namespace (the same objects as chrome), so
+   this facade is skipped there. Shared code must therefore not rely on names that
+   exist only in this facade or in Firefox (menus): background.js uses
+   browser.menus || browser.contextMenus. */
 (() => {
   "use strict";
   if (typeof globalThis.browser !== "undefined") return;
